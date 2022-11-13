@@ -13,5 +13,27 @@ function query($query){
 
     return $rows;
 }
+//tambahdata
+function tambah($data){
+    global $conn;
+
+    $title = htmlspecialchars($data["title"]);
+    $tanggal = date("Y-m-d H:i:s");
+
+    $query = "INSERT INTO todos VALUES
+        ('','$title','$tanggal','');
+        ";
+    mysqli_query($conn,$query);
+return mysqli_affected_rows($conn);
+}
+
+
+//hapus data todolist
+function hapus($id){
+    global $conn;
+    mysqli_query($conn,"DELETE FROM todos WHERE id = $id");
+
+return mysqli_affected_rows($conn);
+}
 
 ?>

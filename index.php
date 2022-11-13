@@ -2,7 +2,23 @@
 
 require "function.php";
 
+
+if(isset($_POST["submit"])){
+        if(tambah($_POST) > 0 ){
+        echo "
+        <script>
+        alert('Tugas berhasil Di tambahkan');
+        document.location.href = 'index.php';
+        </script>";
+    }else{
+        echo "
+         <script>alert('Tugas gagal Di tambahkan');
+        document.location.href = 'index.php';
+        </script>";
+    }
+}
 $todos = query("SELECT * FROM todos ORDER BY id DESC");
+
 
 
 ?>
@@ -17,33 +33,23 @@ $todos = query("SELECT * FROM todos ORDER BY id DESC");
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <h2 align="center" style="font-family:arial;">To Do List </h2>
     <div class="main-section">
         <div class="add-section">
-            <form action="">
-                <input type="text" name="title" placeholder="this field is requierd ">
-                <button type="submit">Add &nbsp; <span> &#43; </span></button>
+            <form action="" method="post" autocomplete="off">
+                <input type="text" name="title" placeholder="Masukan Kegiatan Anda ">
+                <button type="submit" name="submit">Add &nbsp; <span> &#43; </span></button>
             </form>
         </div>
         <div class="show-todo-section">
             <?php foreach($todos as $todos): ?>
             <div class="todo-item">
-                <span id="<?=$todos["id"];?>" class ="remove-to-do">X</span>
-
-                <?php if($todos['checked']){?>
-                    <input type="checkbox" class = "check-box" checked />
-                    <h2 class="checked"><?=$todos["title"];?></h2>
-                <?php }else{?>
-                    <input type="checkbox">
-                    <h2><?=$todos["title"];?></h2>
-                <?php }?>    
-                        <br>
-                    <small><?=$todos["datetime"];?></small>
+                <a href="hapusToDo.php?id=<?= $todos["id"];?>"><span class ="remove-to-do">X</span></a>
+                        <h2><?php echo $todos['title'] ?></h2>
+                    <small>Dibuat Tanggal:<?=$todos["datetime"];?></small>
             </div>
             <?php endforeach;?>
-
-
         </div>
     </div>
-    
 </body>
 </html>
